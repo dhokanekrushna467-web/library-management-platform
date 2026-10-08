@@ -5,6 +5,7 @@ pipeline {
         PYTHONUNBUFFERED = '1'
         DOCKER_IMAGE_NAME = 'library-management-platform'
         IMAGE_TAG = "v1.${BUILD_NUMBER}"
+        PYTHON_EXE = 'C:\\Users\\LOQ\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
     }
 
     stages {
@@ -18,9 +19,9 @@ pipeline {
 
         stage('Environment Setup & Dependencies') {
             steps {
-                echo 'Setting up Python environment...'
+                echo 'Setting up Python 3.11 environment...'
                 bat '''
-                    py -3.11 -m venv venv
+                    "%PYTHON_EXE%" -m venv venv
                     venv\\Scripts\\python.exe -m pip install --upgrade pip
                     venv\\Scripts\\python.exe -m pip install -r requirements.txt
                 '''
@@ -71,6 +72,7 @@ pipeline {
     }
 
     post {
+
         always {
             echo 'Archiving test reports...'
             junit allowEmptyResults: true, testResults: 'reports/test-results.xml'
