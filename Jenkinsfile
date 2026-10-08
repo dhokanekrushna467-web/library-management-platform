@@ -5,7 +5,9 @@ pipeline {
         PYTHONUNBUFFERED = '1'
         DOCKER_IMAGE_NAME = 'library-management-platform'
         IMAGE_TAG = "v1.${BUILD_NUMBER}"
+
         PYTHON_EXE = 'C:\\Users\\LOQ\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
+        DOCKER_EXE = 'C:\\Users\\LOQ\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe'
     }
 
     stages {
@@ -51,8 +53,8 @@ pipeline {
             steps {
                 echo "Building Docker image ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}..."
                 bat '''
-                    docker build -t %DOCKER_IMAGE_NAME%:%IMAGE_TAG% .
-                    docker tag %DOCKER_IMAGE_NAME%:%IMAGE_TAG% %DOCKER_IMAGE_NAME%:latest
+                    "%DOCKER_EXE%" build -t %DOCKER_IMAGE_NAME%:%IMAGE_TAG% .
+                    "%DOCKER_EXE%" tag %DOCKER_IMAGE_NAME%:%IMAGE_TAG% %DOCKER_IMAGE_NAME%:latest
                 '''
             }
         }
